@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6916EF9B2743541400F4A784 /* HugOrCompressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6916EF9A2743541400F4A784 /* HugOrCompressVC.swift */; };
 		6916EF9D2743542400F4A784 /* SamplePresentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6916EF9C2743542400F4A784 /* SamplePresentVC.swift */; };
+		6916EF9F27439F4000F4A784 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6916EF9E27439F3F00F4A784 /* BaseViewController.swift */; };
 		69C42A442730CEA40017C964 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C42A432730CEA40017C964 /* AppDelegate.swift */; };
 		69C42A462730CEA40017C964 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C42A452730CEA40017C964 /* SceneDelegate.swift */; };
 		69C42A482730CEA40017C964 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C42A472730CEA40017C964 /* ViewController.swift */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		6916EF9A2743541400F4A784 /* HugOrCompressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HugOrCompressVC.swift; sourceTree = "<group>"; };
 		6916EF9C2743542400F4A784 /* SamplePresentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplePresentVC.swift; sourceTree = "<group>"; };
+		6916EF9E27439F3F00F4A784 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		69C42A402730CEA40017C964 /* AutoLayoutProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoLayoutProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69C42A432730CEA40017C964 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69C42A452730CEA40017C964 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				69C42A512730CEA70017C964 /* Info.plist */,
 				6916EF9A2743541400F4A784 /* HugOrCompressVC.swift */,
 				6916EF9C2743542400F4A784 /* SamplePresentVC.swift */,
+				6916EF9E27439F3F00F4A784 /* BaseViewController.swift */,
 			);
 			path = AutoLayoutProject;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				69C42A442730CEA40017C964 /* AppDelegate.swift in Sources */,
 				69C42A462730CEA40017C964 /* SceneDelegate.swift in Sources */,
 				6916EF9B2743541400F4A784 /* HugOrCompressVC.swift in Sources */,
+				6916EF9F27439F4000F4A784 /* BaseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

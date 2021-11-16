@@ -29,11 +29,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: BaseViewController {
     @IBOutlet weak var hugOrCompressButton: UIButton!
     @IBOutlet weak var samplePresentButton: UIButton!
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

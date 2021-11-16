@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class HugOrCompressVC: UIViewController {
+class HugOrCompressVC: BaseViewController {
     lazy var titleLabel: UILabel = {
         let label: UILabel = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 17)
@@ -16,6 +16,7 @@ class HugOrCompressVC: UIViewController {
         label.numberOfLines = 0
         label.backgroundColor = .yellow
         label.text = "这是一个抗压缩的label,这是一个非常非常这是一个非常非常大的label"
+        label.textColor = .black
         return label
     }()
 
@@ -26,18 +27,11 @@ class HugOrCompressVC: UIViewController {
         label.numberOfLines = 0
         label.backgroundColor = .green
         label.text = "这是一个抗拉伸的label"
+        label.textColor = .black
         return label
     }()
     
-    lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        return stackView
-    }()
+    
     
     lazy var compressContainer: UIView = {
         let view = UIView(frame: .zero)
