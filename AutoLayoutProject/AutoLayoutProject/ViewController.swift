@@ -37,15 +37,20 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .lightGray
         // Do any additional setup after loading the view.
     }
 
     
     
     @IBAction func clickHugOrCompress(_ sender: Any) {
+        let hugOrCompressVC = HugOrCompressVC()
+        navigationController?.pushViewController(hugOrCompressVC, animated: true)
     }
     
     @IBAction func clickSamplePresent(_ sender: Any) {
+        let samplePresent = SamplePresentVC()
+        navigationController?.pushViewController(samplePresent, animated: true)
     }
     
 }
