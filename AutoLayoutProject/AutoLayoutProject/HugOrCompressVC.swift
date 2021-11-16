@@ -39,13 +39,23 @@ class HugOrCompressVC: UIViewController {
         return stackView
     }()
     
+    lazy var compressContainer: UIView = {
+        let view = UIView(frame: .zero)
+        return view
+    }()
+    
+    lazy var hugContainer: UIView = {
+        let view = UIView(frame: .zero)
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
     func setupUI() {
-        view.backgroundColor = .brown
+        view.backgroundColor = .white
         
         view.addSubview(titleLabel)
         view.addSubview(subTitle)
@@ -76,21 +86,84 @@ class HugOrCompressVC: UIViewController {
         rightContraintOfSub.isActive = true
         subTitle.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
+        // 组合: 左边一个view内容抗拉伸,右边那个view非常小的时候,观察左边是否被拉伸
+        showAntiCompressCase()
         
         // 组合: 左边一个view内容抗压缩,当右边那个view非常大的时候,观察左边是否被压缩
-        
+        showAntiHugCase()
     }
     
     func showAntiCompressCase() {
-        let containerView = UIView()
+        let containerView = compressContainer
+        view.addSubview(containerView)
+        containerView.backgroundColor = .lightGray
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.topAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: 20)
-        containerView.leadingAnchor.constraint(equalTo: view.leftAnchor, constant: 20)
-        containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        containerView.topAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: 20).isActive = true
+        containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
+        containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
+        
+        let leftView = UILabel(frame: .zero)
+        containerView.addSubview(leftView)
+        leftView.translatesAutoresizingMaskIntoConstraints = false
+        leftView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        leftView.backgroundColor = .blue
+        leftView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
+        leftView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10).isActive = true
+        leftView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true
+        leftView.text = "我不想被压缩,别挤我了"
+        leftView.textColor = .white
+        
+        let rightView = UILabel(frame: .zero)
+        containerView.addSubview(rightView)
+        rightView.backgroundColor = .purple
+        rightView.translatesAutoresizingMaskIntoConstraints = false
+        rightView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        let rightViewLeadingAncor = rightView.leadingAnchor.constraint(equalTo: leftView.trailingAnchor, constant: 5)
+        rightViewLeadingAncor.priority = .defaultLow
+        rightViewLeadingAncor.isActive = true
+        rightView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
+        rightView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10).isActive = true
+        rightView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true
+        rightView.text = "我非常非常长,你得让我挤挤,我就想要挤挤我很急急急急"
+        rightView.textColor = .white
     }
     
     func showAntiHugCase() {
+        let containerView = hugContainer
+        view.addSubview(containerView)
+        containerView.backgroundColor = .lightGray
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.topAnchor.constraint(equalTo: compressContainer.bottomAnchor, constant: 20).isActive = true
+        containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
+        containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
+        
+        let leftView = UILabel(frame: .zero)
+        containerView.addSubview(leftView)
+        leftView.translatesAutoresizingMaskIntoConstraints = false
+        leftView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        leftView.backgroundColor = .blue
+        leftView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
+        leftView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10).isActive = true
+        leftView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true
+        leftView.text = "我不想被拉伸,别拉我"
+        leftView.textColor = .white
+        
+        let rightView = UILabel(frame: .zero)
+        containerView.addSubview(rightView)
+        rightView.backgroundColor = .purple
+        rightView.translatesAutoresizingMaskIntoConstraints = false
+        rightView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        let rightViewLeadingAncor = rightView.leadingAnchor.constraint(equalTo: leftView.trailingAnchor, constant: 5)
+        rightViewLeadingAncor.priority = .defaultLow
+        rightViewLeadingAncor.isActive = true
+        rightView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
+        rightView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10).isActive = true
+        rightView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true
+        rightView.text = "我很小只,我想拉你"
+        rightView.textColor = .white
     }
 }
