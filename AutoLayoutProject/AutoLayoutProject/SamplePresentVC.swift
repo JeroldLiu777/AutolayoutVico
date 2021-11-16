@@ -19,7 +19,7 @@ class SamplePresentVC: UIViewController {
         }
     }
 
-    let stackHeight = 40
+    let stackHeight = 50
     lazy var iconImgView: UIImageView = {
         let img = UIImageView(frame: .zero)
         img.image = UIImage(named: "album")
@@ -30,7 +30,7 @@ class SamplePresentVC: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = 15
+        stackView.spacing = 30
         stackView.distribution = .fill
         stackView.alignment = .center
         return stackView
