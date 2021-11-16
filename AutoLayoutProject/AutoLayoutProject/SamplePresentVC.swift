@@ -36,6 +36,13 @@ class SamplePresentVC: UIViewController {
         return stackView
     }()
     
+    lazy var naviContainer: UIView = {
+        let view = UIView(frame: .zero)
+        return view
+    }()
+    
+    var iconTopConstraint:NSLayoutConstraint?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -51,19 +58,58 @@ class SamplePresentVC: UIViewController {
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        guard let tempConstraint = iconTopConstraint else { return }
+        if size.width > size.height {
+            // 横屏
+            stackView.spacing = 50
+            tempConstraint.constant = 0
+        } else {
+            // 竖屏
+            stackView.spacing = 30
+            tempConstraint.constant = -(44+statusBarHeight)
+        }
+    }
+    
+    func setupNavigationBar() {
+        view.addSubview(naviContainer)
+        naviContainer.translatesAutoresizingMaskIntoConstraints = false
+        naviContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        naviContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+        naviContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        naviContainer.heightAnchor.constraint(equalToConstant: 44+statusBarHeight).isActive = true
+        
+        let backButton = UIButton(frame: .zero)
+        naviContainer.addSubview(backButton)
+        backButton.setImage(UIImage(named: "back"), for: .normal)
+        backButton.addTarget(self, action: #selector(backToPrivious), for: .touchUpInside)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.leadingAnchor.constraint(equalTo: naviContainer.leadingAnchor, constant: 15).isActive = true
+        backButton.topAnchor.constraint(equalTo: naviContainer.topAnchor, constant: 0).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        
+        
+    }
+    
+    @objc func backToPrivious() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     func setupUI() {
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = mainColor
-        self.title = "以父之名"
         view.addSubview(iconImgView)
         view.addSubview(stackView)
         
         iconImgView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([iconImgView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -statusBarHeight),
+        iconTopConstraint = iconImgView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -statusBarHeight)
+        guard let tempConstraint = iconTopConstraint else { return }
+        NSLayoutConstraint.activate([tempConstraint,
                                      iconImgView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
                                      iconImgView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-                                     iconImgView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.4)])
-        
+                                     iconImgView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.5)])
+        setupNavigationBar()
         
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +130,7 @@ class SamplePresentVC: UIViewController {
         let imgView = UIImageView(frame: .zero)
         imgView.image = UIImage(named: "icon\(index+1)")
         imgView.clipsToBounds = true
-        imgView.layer.cornerRadius = CGFloat(stackHeight)/2.0
+        imgView.layer.cornerRadius = 10
         imgView.backgroundColor = UIColor(red: 95/255.0, green: 126/255.0, blue: 115/255.0, alpha: 1)
         return imgView
     }
@@ -97,7 +143,6 @@ class SamplePresentVC: UIViewController {
         gradientLayer.endPoint  = CGPoint.init(x: 0, y: 1)
         gradientLayer.frame = UIScreen.main.bounds
         //最后作为背景
-        view.layer.insertSublayer(gradientLayer, at: 0)
-
+        naviContainer.layer.insertSublayer(gradientLayer, at: 0)
     }
 }
