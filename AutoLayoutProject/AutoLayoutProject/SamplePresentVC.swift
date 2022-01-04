@@ -8,18 +8,51 @@
 import Foundation
 import UIKit
 
+enum BottomStackViewItems: Int,CaseIterable {
+    case cycle = 0
+    case previous = 1
+    case play = 2
+    case next = 3
+    case recipe = 4
+}
+
+extension SamplePresentVC {
+    func addItems(itemType: BottomStackViewItems) {
+        switch itemType {
+        case .cycle:
+            let imageView = getCommonButton(imageName: "cycleplay")
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.heightAnchor.constraint(equalToConstant: CGFloat(stackHeight)).isActive = true
+            imageView.widthAnchor.constraint(equalToConstant: CGFloat(stackHeight)).isActive = true
+            stackViewBottom.addArrangedSubview(imageView)
+        case .next,.play,.previous:
+            let imageView = getControlButton(index: itemType.rawValue,iconNamePrefix: "play",cornerRadius: stackHeight/2)
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.heightAnchor.constraint(equalToConstant: CGFloat(stackHeight)).isActive = true
+            imageView.widthAnchor.constraint(equalToConstant: CGFloat(stackHeight)).isActive = true
+            stackViewBottom.addArrangedSubview(imageView)
+        case .recipe:
+            let imageView = getCommonButton(imageName: "recipe")
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.heightAnchor.constraint(equalToConstant: CGFloat(stackHeight)).isActive = true
+            imageView.widthAnchor.constraint(equalToConstant: CGFloat(stackHeight)).isActive = true
+            stackViewBottom.addArrangedSubview(imageView)
+        }
+    }
+}
+
 class SamplePresentVC: UIViewController {
     let mainColor = UIColor(red: 34/255.0, green: 73/255.0, blue: 55/255.0, alpha: 1)
     var statusBarHeight: CGFloat {
         if #available(iOS 13.0, *) {
-            let statusManager = UIApplication.shared.windows.first?.windowScene?.statusBarManager
+            let statusManager = UIApplication.shared.keyWindow?.windowScene?.statusBarManager
             return statusManager?.statusBarFrame.height ?? 20.0
         } else {
             return UIApplication.shared.statusBarFrame.height
         }
     }
 
-    let stackHeight = 50
+    let stackHeight = 50.0
     lazy var iconImgView: UIImageView = {
         let img = UIImageView(frame: .zero)
         img.image = UIImage(named: "album")
@@ -31,6 +64,16 @@ class SamplePresentVC: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 30
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        return stackView
+    }()
+    
+    lazy var stackViewBottom: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 20
         stackView.distribution = .fill
         stackView.alignment = .center
         return stackView
@@ -101,6 +144,7 @@ class SamplePresentVC: UIViewController {
         view.backgroundColor = mainColor
         view.addSubview(iconImgView)
         view.addSubview(stackView)
+        view.addSubview(stackViewBottom)
         
         iconImgView.translatesAutoresizingMaskIntoConstraints = false
         iconTopConstraint = iconImgView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -statusBarHeight)
@@ -118,19 +162,36 @@ class SamplePresentVC: UIViewController {
                                     )
         
         for index in 0...3 {
-            let imageView = getControlButton(index: index)
+            let imageView = getControlButton(index: index+1,iconNamePrefix: "icon",cornerRadius: 10)
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.heightAnchor.constraint(equalToConstant: CGFloat(stackHeight)).isActive = true
             imageView.widthAnchor.constraint(equalToConstant: CGFloat(stackHeight)).isActive = true
             stackView.addArrangedSubview(imageView)
         }
+        
+        stackViewBottom.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([stackViewBottom.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+                                     stackViewBottom.heightAnchor.constraint(equalToConstant: CGFloat(stackHeight)),
+                                     stackViewBottom.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
+        
+        for bottomItem in BottomStackViewItems.allCases {
+            addItems(itemType: bottomItem)
+        }
+        
     }
     
-    func getControlButton(index:Int) -> UIImageView {
+    func getCommonButton(imageName: String) -> UIImageView {
         let imgView = UIImageView(frame: .zero)
-        imgView.image = UIImage(named: "icon\(index+1)")
+        imgView.image = UIImage(named: imageName)
+        imgView.backgroundColor = UIColor(red: 95/255.0, green: 126/255.0, blue: 115/255.0, alpha: 1)
+        return imgView
+    }
+    
+    func getControlButton(index:Int, iconNamePrefix: String, cornerRadius: CGFloat) -> UIImageView {
+        let imgView = UIImageView(frame: .zero)
+        imgView.image = UIImage(named: "\(iconNamePrefix)\(index)")
         imgView.clipsToBounds = true
-        imgView.layer.cornerRadius = 10
+        imgView.layer.cornerRadius = cornerRadius
         imgView.backgroundColor = UIColor(red: 95/255.0, green: 126/255.0, blue: 115/255.0, alpha: 1)
         return imgView
     }

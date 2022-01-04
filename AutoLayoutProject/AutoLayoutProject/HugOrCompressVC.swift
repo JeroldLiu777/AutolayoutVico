@@ -53,21 +53,23 @@ class HugOrCompressVC: BaseViewController {
         
         view.addSubview(titleLabel)
         view.addSubview(subTitle)
-        //case1 titleLabel 的左右约束故意设置为100, 一旦内容比较多,就会被压缩在一起, 这时候设置左右约束等级小于251, 然后设置内容抗压缩,就能让内容正确显示出来
+        //case1 titleLabel 的左右约束故意设置为100, 原来的话,一旦内容比较多,肯定会被压缩, 但这时候设置左右约束等级小于251, 然后设置内容抗压缩,就能让内容正确显示出来, 这体现的是内容抗压缩等级高于外约束时候,对内容的作用. 观察内容是否被压缩就可以知道
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        
         let leftConstraint = titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50)
         leftConstraint.priority = .defaultLow
         leftConstraint.isActive = true
+        
         let rightConstraint = titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50)
         rightConstraint.isActive = true
         rightConstraint.priority = .defaultLow
         titleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
+        titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        
-        // case2 subtitle 的左右约束设置的很小,这时候,内容的抗拉伸约束很大,这样,label的内容就不会被拉伸了,观察背景色就可以知道,抗拉伸有生效
+        // case2 subtitle 的左右约束设置的很小,这时候,内容的抗拉伸约束很大,这样,label的内容就不会被拉伸了,观察背景色就可以知道没有被拉伸,抗拉伸有生效
         subTitle.translatesAutoresizingMaskIntoConstraints = false
         subTitle.setContentHuggingPriority(.required, for: .horizontal)
         subTitle.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant:20).isActive = true
@@ -75,15 +77,16 @@ class HugOrCompressVC: BaseViewController {
         let leftConstraintOfSub = subTitle.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20)
         leftConstraintOfSub.priority = .defaultLow
         leftConstraintOfSub.isActive = true
+        
         let rightContraintOfSub = subTitle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)
         rightContraintOfSub.priority = .defaultLow
         rightContraintOfSub.isActive = true
         subTitle.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        // 组合: 左边一个view内容抗拉伸,右边那个view非常小的时候,观察左边是否被拉伸
+        // 组合: 左边一个view内容抗压缩,当右边那个view非常大的时候,观察左边是否被压缩
         showAntiCompressCase()
         
-        // 组合: 左边一个view内容抗压缩,当右边那个view非常大的时候,观察左边是否被压缩
+        // 组合: 左边一个view内容抗拉伸,右边那个view非常小的时候,观察左边是否被拉伸
         showAntiHugCase()
     }
     
@@ -93,8 +96,8 @@ class HugOrCompressVC: BaseViewController {
         containerView.backgroundColor = .lightGray
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.topAnchor.constraint(equalTo: subTitle.bottomAnchor, constant: 20).isActive = true
-        containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
-        containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
+        containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5).isActive = true
+        containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5).isActive = true
         containerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         
@@ -130,8 +133,8 @@ class HugOrCompressVC: BaseViewController {
         containerView.backgroundColor = .lightGray
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.topAnchor.constraint(equalTo: compressContainer.bottomAnchor, constant: 20).isActive = true
-        containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
-        containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
+        containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5).isActive = true
+        containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5).isActive = true
         containerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         
