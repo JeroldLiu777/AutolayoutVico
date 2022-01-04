@@ -49,14 +49,13 @@ class HugOrCompressVC: BaseViewController {
     }
     
     func setupUI() {
-        view.backgroundColor = .white
         
         view.addSubview(titleLabel)
         view.addSubview(subTitle)
         //case1 titleLabel 的左右约束故意设置为100, 原来的话,一旦内容比较多,肯定会被压缩, 但这时候设置左右约束等级小于251, 然后设置内容抗压缩,就能让内容正确显示出来, 这体现的是内容抗压缩等级高于外约束时候,对内容的作用. 观察内容是否被压缩就可以知道
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 130).isActive = true
         
         let leftConstraint = titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50)
         leftConstraint.priority = .defaultLow
